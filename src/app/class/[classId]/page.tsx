@@ -12,7 +12,22 @@ interface HostInfo { id: number; name: string; profile_image_url: string | null;
 interface ClassDetailInfo { id: number; title: string; description: string; category: string; class_datetime: string; duration_minutes: number; capacity: number; current_participants: number; price: string; location_address: string; location_detail: string | null; location_lat: string | null; location_lng: string | null; status: string; host: HostInfo | null; reviews: ReviewInfo[]; }
 
 // --- Helper Functions (keep as defined before) ---
-function formatDateTime(isoString: string): string { /* ... */ }
+function formatDateTime(isoString: string): string {
+    try {
+        const date = new Date(isoString);
+        // 예시: 5월 3일 (토) 오후 7:00
+        return date.toLocaleString("ko-KR", {
+            month: "long",
+            day: "numeric",
+            weekday: "short",
+            hour: "numeric",
+            minute: "numeric",
+            hour12: true,
+        });
+    } catch (e) {
+        return "날짜 정보 없음";
+    }
+}
 
 // --- Naver Map Integration ---
 const NAVER_MAPS_CLIENT_ID = process.env.NEXT_PUBLIC_NAVER_MAPS_CLIENT_ID || "TEMP_NAVER_CLIENT_ID"; // Use environment variable
@@ -194,7 +209,7 @@ async function fetchClassDetails(classId: string): Promise<ClassDetailInfo> {
       const errorData = await response.json();
       throw new Error(errorData.error || "클래스 상세 정보를 불러오는데 실패했습니다.");
     }
-    const data: ClassDetailInfo = await response.json();
+    const data = await response.json() as ClassDetailInfo;
     return data;
   } catch (error) {
     console.error("Fetch class details error:", error);
@@ -218,7 +233,7 @@ async function createBooking(classId: number) {
             },
             body: JSON.stringify({ class_id: classId })
         });
-        const data = await response.json();
+        const data = await response.json() as { [key: string]: any };
         if (!response.ok) {
             throw new Error(data.error || "예약 생성에 실패했습니다.");
         }

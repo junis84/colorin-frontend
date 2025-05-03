@@ -20,7 +20,7 @@ async function fetchReferralStatus(): Promise<ReferralStatus> {
         });
         if (response.status === 401) throw new Error("로그인이 필요합니다.");
         if (!response.ok) throw new Error("추천인 상태를 불러오는데 실패했습니다.");
-        return await response.json();
+        return await response.json() as ReferralStatus;
     } catch (error) { console.error(error); throw error; }
 }
 
@@ -34,7 +34,7 @@ async function generateReferralCode(): Promise<{ referral_code: string }> {
         });
         if (response.status === 401) throw new Error("로그인이 필요합니다.");
         if (!response.ok) throw new Error("추천인 코드를 생성/조회하는데 실패했습니다.");
-        return await response.json();
+        return await response.json() as { referral_code: string };
     } catch (error) { console.error(error); throw error; }
 }
 

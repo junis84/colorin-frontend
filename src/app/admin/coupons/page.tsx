@@ -46,8 +46,8 @@ async function createAdminCoupon(couponData: any): Promise<CouponInfo> {
             body: JSON.stringify(couponData)
         });
         if (response.status === 401 || response.status === 403) throw new Error("Unauthorized");
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.error || "Failed to create coupon");
+        const data = await response.json() as CouponInfo;
+        if (!response.ok) throw new Error((data as any).error || "Failed to create coupon");
         return data;
     } catch (error) { console.error(error); throw error; }
 }

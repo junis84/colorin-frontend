@@ -36,7 +36,7 @@ async function fetchClasses(category: string): Promise<ClassInfo[]> {
       const errorData = await response.json();
       throw new Error(errorData.error || "클래스 목록을 불러오는데 실패했습니다.");
     }
-    const data: ClassInfo[] = await response.json();
+    const data = await response.json() as ClassInfo[];
     return data;
   } catch (error) {
     console.error("Fetch classes error:", error);
