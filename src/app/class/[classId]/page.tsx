@@ -11,10 +11,6 @@ interface ReviewInfo { id: number; rating: number; comment: string | null; creat
 interface HostInfo { id: number; name: string; profile_image_url: string | null; host_introduction: string | null; }
 interface ClassDetailInfo { id: number; title: string; description: string; category: string; class_datetime: string; duration_minutes: number; capacity: number; current_participants: number; price: string; location_address: string; location_detail: string | null; location_lat: string | null; location_lng: string | null; status: string; host: HostInfo | null; reviews: ReviewInfo[]; }
 
-// --- API Call Functions (keep as defined before) ---
-async function fetchClassDetails(classId: string): Promise<ClassDetailInfo> { /* ... */ }
-async function createBooking(classId: number) { /* ... */ }
-
 // --- Helper Functions (keep as defined before) ---
 function formatDateTime(isoString: string): string { /* ... */ }
 
